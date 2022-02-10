@@ -1,0 +1,8 @@
+/trace.zip
+/.pytest_cache/
+/venv/
+/allure/
+*.pyc
+/.idea/
+*.png
+*.txt
