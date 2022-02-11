@@ -6,8 +6,8 @@ from .base_page import Page
 class CartPage(Page):
 
     @allure.step('Open cart page')
-    def open(self, base_url: str):
-        self._page.goto(base_url + 'cart.html')
+    def open(self):
+        self._page.goto(self._base_url + 'cart.html')
 
     @allure.step('Check that backpack in cart')
     def should_present_backpack_in_cart(self):

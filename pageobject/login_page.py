@@ -6,8 +6,8 @@ from .base_page import Page
 class LoginPage(Page):
 
     @allure.step('Open login page')
-    def open(self, base_url: str):
-        self._page.goto(base_url)
+    def open(self):
+        self._page.goto(self._base_url)
 
     @allure.step('Input login: {1}')
     def enter_login(self, login: str):
@@ -22,9 +22,9 @@ class LoginPage(Page):
         self._page.click("#login-button")
 
     @allure.step('Check that main page opened')
-    def should_open_main_page(self, base_url: str):
+    def should_open_main_page(self):
         self._page.wait_for_load_state()
-        assert self._page.url == base_url + 'inventory.html', 'Didn`t open main page'
+        assert self._page.url == self._base_url + 'inventory.html', 'Didn`t open main page'
 
     @allure.step('Check that alert text come to sight')
     def should_be_epic_sadface_text(self):
