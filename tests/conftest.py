@@ -8,6 +8,8 @@ import pytest
 from faker import Faker
 from playwright.sync_api import sync_playwright
 
+from app.Browser import chose_browser
+
 
 def read_ini():
     root_path = os.path.join(sys.path[0], "project-config.ini")
@@ -61,39 +63,14 @@ def pytest_generate_tests(metafunc):
 
 
 @pytest.fixture(scope="session")
-def browser(headless, browser_name) -> object | list:
-    match browser_name:
-        case 'chrome':
-            with sync_playwright() as p:
-                browser = p.chromium.launch(channel='chrome', headless=headless)
-                browser.new_context()
-                yield browser
-                browser.close()
-        case 'chromium':
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=headless)
-                browser.new_context()
-                yield browser
-                browser.close()
-        case 'firefox':
-            with sync_playwright() as p:
-                browser = p.firefox.launch(headless=headless)
-                browser.new_context()
-                yield browser
-                browser.close()
-        case 'webkit':
-            with sync_playwright() as p:
-                browser = p.webkit.launch(headless=headless)
-                browser.new_context()
-                yield browser
-                browser.close()
-        case _:
-            raise pytest.UsageError('Wrong argument --browser. Please, chose "chrome", '
-                                    '"chromium", "firefox" or "webkit" (can several)')
+def browser(headless: bool, browser_name: str):
+    with sync_playwright() as p:
+        browser = chose_browser(p, browser_name, headless)
+        yield browser
 
 
 @pytest.fixture(scope='function')
-def context(browser: object) -> object:
+def context(browser):
     context = browser.new_context()
     context.tracing.start(screenshots=True, snapshots=True)
     yield context
