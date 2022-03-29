@@ -7,6 +7,7 @@ import jsonschema
 import pytest
 from faker import Faker
 from playwright.sync_api import sync_playwright
+from utils.validator import Validator
 
 from app.Browser import chose_browser
 
@@ -99,15 +100,9 @@ def creds_for_login() -> dict:
     try:
         with open(f'{sys.path[0]}/credentials.json', 'r') as file:
             creds = json.load(file)
-        validate_credentials(creds)
+        Validator.validate_credentials(creds)
         return creds
     except FileNotFoundError:
         raise 'Not found credentials.json. Please, add or create this'
 
 
-def validate_credentials(creds: dict):
-    schema = {
-        "login": "string",
-        "password": "string"
-    }
-    jsonschema.validate(creds, schema)
