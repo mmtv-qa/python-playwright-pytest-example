@@ -1,6 +1,6 @@
-from cart_page import CartPage
-from login_page import LoginPage
-from main_page import MainPage
+from pageobject.cart_page import CartPage
+from pageobject.login_page import LoginPage
+from pageobject.main_page import MainPage
 
 
 class Page:

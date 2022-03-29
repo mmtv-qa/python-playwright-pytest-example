@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from pageobject.Page import Page
+from app.Page import Page
 
 
 @allure.suite('Cart')
